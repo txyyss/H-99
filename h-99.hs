@@ -168,3 +168,31 @@ encode'' = foldr encodeHelper []
           | item == x = (count + 1, x):xs
           | otherwise = (1, item) : result
                         
+-- Problem 11
+
+data Problem11 a = Single a | Multiple Int a deriving (Show)
+encodeModified :: Eq a => [a] -> [Problem11 a]
+encodeModified = map transformHelper . encode
+  where transformHelper (1, x) = Single x
+        transformHelper (n, x) = Multiple n x
+
+-- Problem 12
+
+decodeModified :: [Problem11 a] -> [a]
+decodeModified = concatMap decodeHelper
+  where decodeHelper (Single x) = [x]
+        decodeHelper (Multiple n x) = replicate n x
+
+-- Problem 13
+
+encodeDirect :: Eq a => [a] -> [Problem11 a]
+encodeDirect = foldr encodeHelper []
+  where encodeHelper x result@(h:rest) 
+          | (getContent h) == x = (Multiple (1 + getCount h) x) : rest
+          | otherwise = (Single x) : result
+        encodeHelper x [] = [(Single x)]
+        getContent (Single x) = x
+        getContent (Multiple _ x) = x
+        getCount (Single _) = 1
+        getCount (Multiple n _) = n
+
