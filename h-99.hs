@@ -196,3 +196,10 @@ encodeDirect = foldr encodeHelper []
         getCount (Single _) = 1
         getCount (Multiple n _) = n
 
+-- Problem 14
+
+dupli :: [a] -> [a]
+dupli = concatMap (\x->[x,x])
+
+dupli' :: [a] -> [a]
+dupli' = foldr (\x xs -> x:x:xs) []
