@@ -203,3 +203,11 @@ dupli = concatMap (\x->[x,x])
 
 dupli' :: [a] -> [a]
 dupli' = foldr (\x xs -> x:x:xs) []
+
+-- Problem 15
+
+repli :: [a] -> Int -> [a]
+repli xs n = concatMap (replicate n) xs
+
+repli' :: [a] -> Int -> [a]
+repli' = flip $ concatMap . replicate
