@@ -211,3 +211,19 @@ repli xs n = concatMap (replicate n) xs
 
 repli' :: [a] -> Int -> [a]
 repli' = flip $ concatMap . replicate
+
+-- Problem 16
+
+dropEvery :: [a] -> Int -> [a]
+dropEvery [] _ = []
+dropEvery _ 1 = []
+dropEvery xs 0 = xs
+dropEvery (x:xs) n = dropHelper [x] (n-1) xs
+  where dropHelper result i [] = result
+        dropHelper result 1 (_:ys) = dropHelper result n ys
+        dropHelper result i (y:ys) = dropHelper (result ++ [y]) (i-1) ys
+
+dropEvery' :: [a] -> Int -> [a]
+dropEvery' xs 0 = xs
+dropEvery' [] _ = []
+dropEvery' xs n = map snd $ filter ((n /=) . fst) $ zip (cycle [1..n]) xs
