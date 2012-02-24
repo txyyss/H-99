@@ -227,3 +227,17 @@ dropEvery' :: [a] -> Int -> [a]
 dropEvery' xs 0 = xs
 dropEvery' [] _ = []
 dropEvery' xs n = map snd $ filter ((n /=) . fst) $ zip (cycle [1..n]) xs
+
+-- Problem 17
+
+split :: [a] -> Int -> ([a], [a])
+split xs n = splitHelper [] n xs
+  where splitHelper list 0 ys = (list, ys) 
+        splitHelper list i [] = (list, [])
+        splitHelper list i (y:ys) = splitHelper (list ++ [y]) (i-1) ys
+
+split' :: [a] -> Int -> ([a], [a])
+split' xs 0 = ([], xs)
+split' [] i = ([], [])
+split' (x:xs) n = (x:f, l) where (f,l) = split' xs (n-1)
+
