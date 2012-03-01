@@ -240,4 +240,23 @@ split' :: [a] -> Int -> ([a], [a])
 split' xs 0 = ([], xs)
 split' [] i = ([], [])
 split' (x:xs) n = (x:f, l) where (f,l) = split' xs (n-1)
+                                 
+-- Problem 18
 
+slice :: [a] -> Int -> Int -> [a]
+slice xs h t = sliceHelper [] xs 1
+  where sliceHelper l [] _ = l
+        sliceHelper l (y:ys) i
+          | i > t = l
+          | i < h = sliceHelper l ys (i+1) 
+          | otherwise = sliceHelper (l ++ [y]) ys (i+1)
+
+slice' :: [a] -> Int -> Int -> [a]
+slice' xs h t = map snd $ filter ((>=h) . fst) $ zip [1..t] xs
+
+slice'' :: [a] -> Int -> Int -> [a]
+slice'' [] _ _ = []
+slice'' (x:xs) h t
+  | h > 1 = slice'' xs (h - 1) (t - 1)
+  | t < 1 = []
+  | otherwise = x:slice'' xs (h - 1) (t - 1)
