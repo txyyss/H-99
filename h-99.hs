@@ -260,3 +260,34 @@ slice'' (x:xs) h t
   | h > 1 = slice'' xs (h - 1) (t - 1)
   | t < 1 = []
   | otherwise = x:slice'' xs (h - 1) (t - 1)
+
+-- Problem 19
+
+rotate :: [a] -> Int -> [a]
+rotate xs 0 = xs
+rotate xs i 
+  | i > len = rotate xs (mod i len)
+  | i > 0 = swapConcat $ splitAt i xs
+  | i < 0 = rotate xs $ length xs + i
+  where swapConcat (h,t) = t ++ h
+        len = length xs
+        
+rotate' :: [a] -> Int -> [a]
+rotate' xs 0 = xs
+rotate' [] _ = []
+rotate' l@(x:xs) i
+  | i > len = rotate l (mod i len)
+  | i > 0 = rotate' (xs ++ [x]) (i - 1)
+  | i < 0 = rotate' l $ length l + i
+  where len = length l
+
+-- Problem 20
+
+removeAt :: Int -> [a] -> (Maybe a, [a])
+removeAt _ [] = (Nothing, [])
+removeAt 0 (x:xs) = (Just x, xs)
+removeAt k (x:xs) = let (a,r) = removeAt (k-1) xs in (a, x:r)
+
+removeAt' :: Int -> [a] -> (a, [a])
+removeAt' k xs = let (h, t) = splitAt (k + 1) xs in (last h, init h ++ t)
+
