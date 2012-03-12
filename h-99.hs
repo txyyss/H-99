@@ -291,3 +291,25 @@ removeAt k (x:xs) = let (a,r) = removeAt (k-1) xs in (a, x:r)
 removeAt' :: Int -> [a] -> (a, [a])
 removeAt' k xs = let (h, t) = splitAt (k + 1) xs in (last h, init h ++ t)
 
+-- Problem 21
+
+insertAt :: a -> [a] -> Int -> [a]
+insertAt el xs 1 = el:xs
+insertAt _ [] _ = []
+insertAt el (x:xs) n = x:insertAt el xs (n-1)
+
+insertAt' :: a -> [a] -> Int -> [a]
+insertAt' el xs n = let (h,t)=splitAt n xs in h ++ el:t
+
+-- Problem 22
+
+range :: Int -> Int -> [Int]
+range f l 
+  | f <= l = [f..l]
+  | otherwise = reverse $ range l f
+
+range' :: Int -> Int -> [Int]
+range' f l
+  | f == l = [f]
+  | f < l = f:range' (f+1) l
+  | f > l = f:range' (f-1) l
