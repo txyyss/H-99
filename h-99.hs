@@ -1,4 +1,6 @@
 import Data.List(group)
+import System.Random(randomRIO)
+import Control.Monad(replicateM)
 -- Problem 1
 myLast :: [a] -> a
 myLast [x] = x
@@ -313,3 +315,31 @@ range' f l
   | f == l = [f]
   | f < l = f:range' (f+1) l
   | f > l = f:range' (f-1) l
+
+-- Problem 23
+
+rnd_select :: [a] -> Int -> IO [a]
+rnd_select [] _ = return []
+rnd_select xs n
+  | n <= 0 = error "n must be greater than zero."
+  | otherwise = replicateM n rand
+  where rand = do r <- randomRIO (0, (length xs) - 1)
+                  return (xs!!r)
+
+-- Problem 24
+
+diff_select :: Int -> Int -> IO [Int]
+diff_select n m = diff_select' n [1..m]
+
+diff_select' :: Int -> [a] -> IO [a]
+diff_select' 0 _ = return []
+diff_select' _ [] = error "too few elements to choose from"
+diff_select' n xs = do r <- randomRIO (0,(length xs) - 1)
+                       let remain = take r xs ++ drop (r+1) xs
+                       rest <- diff_select' (n-1) remain
+                       return ((xs!!r):rest)
+
+-- Problem 25
+
+rnd_permu :: [a] -> IO [a]
+rnd_permu xs = diff_select' (length xs) xs
