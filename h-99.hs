@@ -343,3 +343,16 @@ diff_select' n xs = do r <- randomRIO (0,(length xs) - 1)
 
 rnd_permu :: [a] -> IO [a]
 rnd_permu xs = diff_select' (length xs) xs
+
+-- Problem 26
+
+combinations :: Int -> [a] -> [[a]]
+combinations _ [] = []
+combinations 1 xs = map (\x -> [x]) xs
+combinations n (x:xs) = combinations n xs ++ (map (x:) $ combinations (n-1) xs)
+
+-- Problem 27
+
+-- groupDisjoint :: [Int] -> [a] -> [[[a]]]
+-- groupDisjoint d s 
+--   | sum d /= length s = error "not valid parameter"
