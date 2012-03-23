@@ -353,6 +353,14 @@ combinations n (x:xs) = combinations n xs ++ (map (x:) $ combinations (n-1) xs)
 
 -- Problem 27
 
--- groupDisjoint :: [Int] -> [a] -> [[[a]]]
--- groupDisjoint d s 
---   | sum d /= length s = error "not valid parameter"
+-- helper function
+combinationsMore :: Int -> [a] -> [([a], [a])]
+combinationsMore 0 xs = [([], xs)]
+combinationsMore n [] = []
+combinationsMore n (x:xs) = l1 ++ l2
+  where l1 = [ (x:ys, zs) | (ys, zs) <- combinationsMore (n-1) xs ]
+        l2 = [ (ys, x:zs) | (ys, zs) <- combinationsMore n xs]
+
+groupDisjoint :: [Int] -> [a] -> [[[a]]]
+groupDisjoint [] _ = [[]]
+groupDisjoint (n:ns) xs = [ g:gs | (g, rs) <- combinationsMore n xs, gs <- groupDisjoint ns rs]
