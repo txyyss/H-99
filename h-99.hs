@@ -1,6 +1,8 @@
-import Data.List(group)
+import Data.List(group, sortBy, groupBy)
+import Data.Function(on)
 import System.Random(randomRIO)
 import Control.Monad(replicateM)
+import Data.Ord(comparing)
 -- Problem 1
 myLast :: [a] -> a
 myLast [x] = x
@@ -364,3 +366,12 @@ combinationsMore n (x:xs) = l1 ++ l2
 groupDisjoint :: [Int] -> [a] -> [[[a]]]
 groupDisjoint [] _ = [[]]
 groupDisjoint (n:ns) xs = [ g:gs | (g, rs) <- combinationsMore n xs, gs <- groupDisjoint ns rs]
+
+-- Problem 28
+
+lsort :: [[a]] -> [[a]]
+lsort = sortBy (comparing length)
+
+lfsort :: [[a]] -> [[a]]
+lfsort = concat . lsort . groupBy ((==) `on` length) . lsort
+
