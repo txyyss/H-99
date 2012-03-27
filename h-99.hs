@@ -375,3 +375,24 @@ lsort = sortBy (comparing length)
 lfsort :: [[a]] -> [[a]]
 lfsort = concat . lsort . groupBy ((==) `on` length) . lsort
 
+-- Problem 31
+
+isPrime :: Integral a => a -> Bool
+isPrime n 
+  | n < 2 = False
+  | otherwise = all ((/= 0).mod n) $ 2:[3,5..s]
+  where s = floor $ sqrt $ fromIntegral n
+
+-- Problem 32
+
+myGCD :: Integer -> Integer -> Integer
+myGCD a b 
+  | a < 0 = myGCD (-a) b
+  | b < 0 = myGCD a (-b)
+  | b == 0 = a
+  | otherwise = myGCD b (a `mod` b)
+
+-- Problem 33
+
+coprime :: Integral a => a -> a -> Bool
+coprime a b = gcd a b == 1
