@@ -1,3 +1,4 @@
+module H99 where
 import Data.List(group, sortBy, groupBy)
 import Data.Function(on)
 import System.Random(randomRIO)
@@ -396,3 +397,8 @@ myGCD a b
 
 coprime :: Integral a => a -> a -> Bool
 coprime a b = gcd a b == 1
+
+-- Problem 34
+
+totient :: Int -> Int
+totient x = length $ filter (coprime x) [1..(x-1)]
