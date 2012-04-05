@@ -402,3 +402,17 @@ coprime a b = gcd a b == 1
 
 totient :: Int -> Int
 totient x = length $ filter (coprime x) [1..(x-1)]
+
+-- Problem 35
+
+primeFactors :: Int -> [Int]
+primeFactors x = testDiv x $ 2:[3,5..(floor $ sqrt $ fromIntegral x)]
+  where testDiv _ [] = []
+        testDiv target (y:ys)
+          | target `mod` y == 0 = yys ++ (testDiv targetRemain ys)
+          | otherwise = testDiv target ys
+          where (yys, targetRemain) = tryRemove target y
+                tryRemove m n
+                  | m `mod` n /= 0 = ([], m)
+                  | otherwise = (n:ns, remainM)
+                  where (ns, remainM) = tryRemove (m `div` n) n
