@@ -416,3 +416,8 @@ primeFactors x = testDiv x $ 2:[3,5..(floor $ sqrt $ fromIntegral x)]
                   | m `mod` n /= 0 = ([], m)
                   | otherwise = (n:ns, remainM)
                   where (ns, remainM) = tryRemove (m `div` n) n
+
+-- Problem 36
+
+primeFactorsMult :: Int -> [(Int, Int)]
+primeFactorsMult = map (\x -> (head x, length x)) . group . primeFactors
